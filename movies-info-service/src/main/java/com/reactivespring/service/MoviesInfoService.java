@@ -2,7 +2,6 @@ package com.reactivespring.service;
 
 import com.reactivespring.domain.MovieInfo;
 import com.reactivespring.repository.MovieInfoRepository;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -10,10 +9,13 @@ import reactor.core.publisher.Mono;
 
 @Service
 @Slf4j
-@AllArgsConstructor
 public class MoviesInfoService {
 
-    private MovieInfoRepository movieInfoRepository;
+    private final MovieInfoRepository movieInfoRepository;
+
+    private MoviesInfoService(MovieInfoRepository movieInfoRepository){
+        this.movieInfoRepository = movieInfoRepository;
+    }
 
     public Flux<MovieInfo> getAllMovies() {
         return movieInfoRepository.findAll();

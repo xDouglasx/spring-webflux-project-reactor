@@ -18,7 +18,7 @@ import javax.validation.Valid;
 @Slf4j
 public class MoviesInfoController {
 
-    private MoviesInfoService moviesInfoService;
+    private final MoviesInfoService moviesInfoService;
 
     Sinks.Many<MovieInfo> movieInfoSink = Sinks.many().replay().latest();
 
@@ -26,7 +26,7 @@ public class MoviesInfoController {
         this.moviesInfoService = moviesInfoService;
     }
 
-    @GetMapping("/movienfos")
+    @GetMapping("/movieinfos")
     public Flux<MovieInfo> getAllMoviesInfos(@RequestParam(value = "year", required = false) Integer year){
         log.info("year : {} ", year);
 
@@ -46,7 +46,7 @@ public class MoviesInfoController {
                 .switchIfEmpty(Mono.just(ResponseEntity.notFound().build())).log();
     }
 
-    @PostMapping("/moviesinfos")
+    @PostMapping("/movieinfos")
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<MovieInfo> addMovieInfo(@RequestBody @Valid MovieInfo movieInfo){
         return moviesInfoService.addMovieInfo(movieInfo)
